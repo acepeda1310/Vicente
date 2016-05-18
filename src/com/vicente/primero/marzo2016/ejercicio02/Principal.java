@@ -11,38 +11,44 @@ import java.util.Scanner;
 
 /**
  * 
- * @author Adri·n Cepeda ¡vila
+ * @author Adri√°n Cepeda √Åvila
  * @version 1.0.0
  *
  */
 public class Principal {
-	
+
 	/*
-	 * En este programa se ha usado mucho el throw new Exception. Puedes omitirlos todos, es sÛlo para dejar mensajes aclaratorios.
+	 * En este programa se ha usado mucho el throw new Exception. Puedes
+	 * omitirlos todos, es s√≥lo para dejar mensajes aclaratorios.
 	 */
-	
-	//Declaramos tanto teclado como ficheros como constantes, ya que no variar·n.
+
+	// Declaramos tanto teclado como ficheros como constantes, ya que no
+	// variar√°n.
 	private final static Scanner TECLADO = new Scanner(System.in);
 	private final static String FICHERO = "productos.dat";
 
-	//Este boolean es sÛlo para ver si seguimos en el men˙ o salimos del programa.
+	// Este boolean es s√≥lo para ver si seguimos en el men√∫ o salimos del
+	// programa.
 	private static boolean seguimos = true;
-	
+
 	/**
 	 * Insertar un objeto nuevo en el fichero
-	 * @throws Exception Datos del producto no v·lidos
-	 * @throws Exception Error al guardar el fichero
-	*/
+	 * 
+	 * @throws Exception
+	 *             Datos del producto no v√°lidos
+	 * @throws Exception
+	 *             Error al guardar el fichero
+	 */
 	private static void insertar() throws Exception {
 		Producto producto = new Producto();
 		System.out.print("Nombre del producto: ");
-		producto.setNombre(TECLADO.nextLine());
+		producto.setNombre(TECLADO.next());
 		System.out.print("Precio del producto: ");
 		producto.setPrecio(TECLADO.nextFloat());
 		System.out.print("Stock del producto: ");
 		producto.setStock(TECLADO.nextInt());
 		if (producto.getPrecio() <= 0 || producto.getStock() < 0)
-			throw new Exception("Datos del producto no v·lidos");
+			throw new Exception("Datos del producto no v√°lidos");
 		FileOutputStream fos = null;
 		ObjectOutputStream oos = null;
 		try {
@@ -56,7 +62,7 @@ public class Principal {
 			}
 			oos.writeObject(producto);
 			oos.close();
-			System.out.println("Fichero actualizado con Èxito.");
+			System.out.println("Fichero actualizado con √©xito.");
 		} catch (Exception e) {
 			throw new Exception("Error al guardar el fichero");
 		}
@@ -64,7 +70,9 @@ public class Principal {
 
 	/**
 	 * Visualizamos los productos del fichero uno por uno.
-	 * @throws java.lang.ClassNotFoundException No se pudo leer del fichero
+	 * 
+	 * @throws java.lang.ClassNotFoundException
+	 *             No se pudo leer del fichero
 	 */
 	private static void visualizar() throws Exception {
 		Producto producto = null;
@@ -85,15 +93,22 @@ public class Principal {
 		} finally {
 		}
 	}
-	
+
 	/**
-	 * Compramos un producto y, tras ello, actualizamos el fichero y preguntamos si queremos comprar otro. MÈtodo recursivo.
-	 * @param Total de la compra hasta ahora
+	 * Compramos un producto y, tras ello, actualizamos el fichero y preguntamos
+	 * si queremos comprar otro. M√©todo recursivo.
+	 * 
+	 * @param Total
+	 *            de la compra hasta ahora
 	 * @return Total de la compra actualizado
-	 * @throws java.lang.ClassNotFoundException No se puede leer el fichero
-	 * @throws Exception AcciÛn de usuario inv·lida
-	 * @throws Exception Unidades en stock insuficientes
-	 * @throws Exception Error al guardar el fichero
+	 * @throws java.lang.ClassNotFoundException
+	 *             No se puede leer el fichero
+	 * @throws Exception
+	 *             Acci√≥n de usuario inv√°lida
+	 * @throws Exception
+	 *             Unidades en stock insuficientes
+	 * @throws Exception
+	 *             Error al guardar el fichero
 	 */
 	private static float comprar(float totalHastaAhora) throws Exception {
 		ArrayList<Producto> productos = new ArrayList<Producto>();
@@ -122,11 +137,11 @@ public class Principal {
 		int opcion = 0, unidades = 0;
 		try {
 			opcion = TECLADO.nextInt() - 1; // Resto uno para que realmente
-			// comience por el cero.
+											// comience por el cero.
 			if (opcion < 0 || opcion >= productos.size())
 				throw new Exception();
 			System.out.println("Ha elegido comprar " + productos.get(opcion).getNombre());
-			System.out.println("øCu·ntas unidades desea?");
+			System.out.println("¬øCu√°ntas unidades desea?");
 			unidades = TECLADO.nextInt();
 		} catch (Exception e) {
 			throw new Exception("Error, vuelva a probar");
@@ -135,7 +150,7 @@ public class Principal {
 			throw new Exception("Error, vuelva a probar");
 		else if (unidades > productos.get(opcion).getStock())
 			throw new Exception(
-					"Lo sentimos, sÛlo tenemos disponibles " + productos.get(opcion).getStock() + " unidades.");
+					"Lo sentimos, s√≥lo tenemos disponibles " + productos.get(opcion).getStock() + " unidades.");
 		totalHastaAhora += (productos.get(opcion).getPrecio() * unidades);
 		productos.get(opcion).setStock(productos.get(opcion).getStock() - unidades);
 		FileOutputStream fos = null;
@@ -148,29 +163,33 @@ public class Principal {
 				oos.writeObject(productos.get(i));
 			}
 			oos.close();
-			System.out.println("Fichero actualizado con Èxito.");
+			System.out.println("Fichero actualizado con √©xito.");
 		} catch (Exception e) {
 			throw new Exception("Error al guardar el fichero");
 		}
-		System.out.println("øDesea comprar otro producto?");
-		String respuesta = TECLADO.nextLine();
-		if (!(respuesta.toLowerCase().equals("si") || respuesta.toLowerCase().equals("sÌ")
+		System.out.println("¬øDesea comprar otro producto?");
+		String respuesta = TECLADO.next();
+		if (!(respuesta.toLowerCase().equals("si") || respuesta.toLowerCase().equals("s√≠")
 				|| respuesta.toLowerCase().equals("no") || respuesta.equals("No")))
-			throw new Exception("Respuesta no v·lida");
-		if (respuesta.toLowerCase().equals("no"))
-			throw new Exception("");
-		try {
-			totalHastaAhora = comprar(totalHastaAhora);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			throw new Exception("Respuesta no v√°lida");
+		if (!respuesta.toLowerCase().equals("no")) {
+			try {
+				totalHastaAhora += comprar(totalHastaAhora);
+			} catch (Exception e) {
+				String mensaje = e.getMessage();
+				throw new Exception(mensaje);
+			}
 		}
 
 		return totalHastaAhora;
 	}
 
 	/**
-	 * Mostramos men˙ y ejecutamos un mÈtodo, tras ello se vuelve a ejecutar si el boolean seguimos es true. MÈtodo recursivo.
-	 * @throws Exception OperaciÛn no v·lida
+	 * Mostramos men√∫ y ejecutamos un m√©todo, tras ello se vuelve a ejecutar si
+	 * el boolean seguimos es true. M√©todo recursivo.
+	 * 
+	 * @throws Exception
+	 *             Operaci√≥n no v√°lida
 	 */
 	private static void menu() {
 		try {
@@ -194,21 +213,31 @@ public class Principal {
 				break;
 
 			default:
-				throw new Exception("OperaciÛn no v·lida");
+				throw new Exception("Operaci√≥n no v√°lida");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage()); //AquÌ mostramos el mensaje seteado en la excepciÛn del throw new Exception. Como estos, no es obligatorio, pero si el usuario mete un elemento extraÒo puede meter el programa un pete bastante curioso.
+			System.out.println("Operaci√≥n no v√°lida"); // Aqu√≠ mostramos el
+														// mensaje
+			// seteado en la excepci√≥n del
+			// throw new Exception. Como
+			// estos, no es obligatorio,
+			// pero si el usuario mete un
+			// elemento extra√±o puede meter
+			// el programa un pete bastante
+			// curioso.
+			TECLADO.nextLine();
 		} finally {
 			// TODO: handle finally clause
 			if (seguimos)
 				menu();
 		}
 	}
-	
+
 	public static void main(String[] args) {
-		// TODO ApÈndice de mÈtodo generado autom·ticamente
-		System.out.println("-- Bienvenido a la Tienda de Deportes DecartÛn --");
+		// TODO Ap√©ndice de m√©todo generado autom√°ticamente
+		System.out.println("-- Bienvenido a la Tienda de Deportes Decart√≥n --");
 		menu();
 	}
 
 }
+
