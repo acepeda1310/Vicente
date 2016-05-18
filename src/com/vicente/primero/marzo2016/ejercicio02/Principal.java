@@ -11,7 +11,7 @@ import java.util.Scanner;
 
 /**
  * 
- * @author Adrián Cepeda Ávila
+ * @author Adrián Cepeda Avila
  * @version 1.0.0
  *
  */
@@ -35,7 +35,7 @@ public class Principal {
 	 * Insertar un objeto nuevo en el fichero
 	 * 
 	 * @throws Exception
-	 *             Datos del producto no válidos
+	 *             Datos del producto no validos
 	 * @throws Exception
 	 *             Error al guardar el fichero
 	 */
@@ -96,19 +96,14 @@ public class Principal {
 
 	/**
 	 * Compramos un producto y, tras ello, actualizamos el fichero y preguntamos
-	 * si queremos comprar otro. Método recursivo.
+	 * si queremos comprar otro. Metodo recursivo.
 	 * 
-	 * @param Total
-	 *            de la compra hasta ahora
+	 * @param totalHastaAhora Total de la compra hasta ahora
 	 * @return Total de la compra actualizado
-	 * @throws java.lang.ClassNotFoundException
-	 *             No se puede leer el fichero
-	 * @throws Exception
-	 *             Acción de usuario inválida
-	 * @throws Exception
-	 *             Unidades en stock insuficientes
-	 * @throws Exception
-	 *             Error al guardar el fichero
+	 * @throws java.lang.ClassNotFoundException No se puede leer el fichero
+	 * @throws java.lang.Exception Accion de usuario invalida
+	 * @throws java.lang.Exception Unidades en stock insuficientes
+	 * @throws java.lang.Exception Error al guardar el fichero
 	 */
 	private static float comprar(float totalHastaAhora) throws Exception {
 		ArrayList<Producto> productos = new ArrayList<Producto>();
@@ -174,7 +169,7 @@ public class Principal {
 			throw new Exception("Respuesta no válida");
 		if (!respuesta.toLowerCase().equals("no")) {
 			try {
-				totalHastaAhora += comprar(totalHastaAhora);
+				totalHastaAhora = comprar(totalHastaAhora);
 			} catch (Exception e) {
 				String mensaje = e.getMessage();
 				throw new Exception(mensaje);
@@ -185,11 +180,8 @@ public class Principal {
 	}
 
 	/**
-	 * Mostramos menú y ejecutamos un método, tras ello se vuelve a ejecutar si
-	 * el boolean seguimos es true. Método recursivo.
-	 * 
-	 * @throws Exception
-	 *             Operación no válida
+	 * Mostramos menu y ejecutamos un metodo, tras ello se vuelve a ejecutar si
+	 * el boolean seguimos es true. Metodo recursivo.
 	 */
 	private static void menu() {
 		try {
@@ -216,15 +208,13 @@ public class Principal {
 				throw new Exception("Operación no válida");
 			}
 		} catch (Exception e) {
-			System.out.println("Operación no válida"); // Aquí mostramos el
-														// mensaje
-			// seteado en la excepción del
-			// throw new Exception. Como
-			// estos, no es obligatorio,
-			// pero si el usuario mete un
-			// elemento extraño puede meter
-			// el programa un pete bastante
-			// curioso.
+			/*
+			 * Aqui mostramos el mensaje seteado en la excepción del throw new
+			 * Exception. Como estos, no es obligatorio, pero si el usuario mete
+			 * un elemento extraño puede meter el programa un pete bastante
+			 * curioso.
+			 */
+			System.out.println("Operación no válida");
 			TECLADO.nextLine();
 		} finally {
 			// TODO: handle finally clause
@@ -240,4 +230,3 @@ public class Principal {
 	}
 
 }
-
