@@ -9,17 +9,30 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * 
+ * @author Adrián Cepeda Ávila
+ * @version 1.0.0
+ *
+ */
 public class Principal {
 	
 	/*
 	 * En este programa se ha usado mucho el throw new Exception. Puedes omitirlos todos, es sólo para dejar mensajes aclaratorios.
 	 */
-
+	
+	//Declaramos tanto teclado como ficheros como constantes, ya que no variarán.
 	private final static Scanner TECLADO = new Scanner(System.in);
 	private final static String FICHERO = "productos.dat";
 
+	//Este boolean es sólo para ver si seguimos en el menú o salimos del programa.
 	private static boolean seguimos = true;
-
+	
+	/**
+	 * Insertar un objeto nuevo en el fichero
+	 * @throws Exception Datos del producto no válidos
+	 * @throws Exception Error al guardar el fichero
+	*/
 	private static void insertar() throws Exception {
 		Producto producto = new Producto();
 		System.out.print("Nombre del producto: ");
@@ -49,6 +62,10 @@ public class Principal {
 		}
 	}
 
+	/**
+	 * Visualizamos los productos del fichero uno por uno.
+	 * @throws java.lang.ClassNotFoundException No se pudo leer del fichero
+	 */
 	private static void visualizar() throws Exception {
 		Producto producto = null;
 		ObjectInputStream ois = null;
@@ -68,7 +85,16 @@ public class Principal {
 		} finally {
 		}
 	}
-
+	
+	/**
+	 * Compramos un producto y, tras ello, actualizamos el fichero y preguntamos si queremos comprar otro. Método recursivo.
+	 * @param Total de la compra hasta ahora
+	 * @return Total de la compra actualizado
+	 * @throws java.lang.ClassNotFoundException No se puede leer el fichero
+	 * @throws Exception Acción de usuario inválida
+	 * @throws Exception Unidades en stock insuficientes
+	 * @throws Exception Error al guardar el fichero
+	 */
 	private static float comprar(float totalHastaAhora) throws Exception {
 		ArrayList<Producto> productos = new ArrayList<Producto>();
 		ObjectInputStream ois = null;
@@ -142,6 +168,10 @@ public class Principal {
 		return totalHastaAhora;
 	}
 
+	/**
+	 * Mostramos menú y ejecutamos un método, tras ello se vuelve a ejecutar si el boolean seguimos es true. Método recursivo.
+	 * @throws Exception Operación no válida
+	 */
 	private static void menu() {
 		try {
 			System.out.println("Pulse 1 para introducir productos en el fichero.");
@@ -167,14 +197,14 @@ public class Principal {
 				throw new Exception("Operación no válida");
 			}
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println(e.getMessage()); //Aquí mostramos el mensaje seteado en la excepción del throw new Exception. Como estos, no es obligatorio, pero si el usuario mete un elemento extraño puede meter el programa un pete bastante curioso.
 		} finally {
 			// TODO: handle finally clause
 			if (seguimos)
 				menu();
 		}
 	}
-
+	
 	public static void main(String[] args) {
 		// TODO Apéndice de método generado automáticamente
 		System.out.println("-- Bienvenido a la Tienda de Deportes Decartón --");
